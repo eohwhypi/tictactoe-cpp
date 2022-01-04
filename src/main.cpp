@@ -1,6 +1,6 @@
 #include <iostream>
 #include <array>
-enum class Order{
+enum class Value{
     e = 0, // e stands for empty
     x = 1,
     o = 2,
@@ -8,27 +8,29 @@ enum class Order{
 
 class TicTacToe{
     private:
-    std::array <std::array<Order, 3>, 3> board = {{
-        {Order::e,Order::e,Order::e},
-        {Order::e,Order::e,Order::e},
-        {Order::e,Order::e,Order::e},
+    std::array <std::array<Value, 3>, 3> board = {{
+        {Value::e,Value::e,Value::e},
+        {Value::e,Value::e,Value::e},
+        {Value::e,Value::e,Value::e},
     }};
     public:
     void begin(){
         int choice;
-        Order k = Order::e;
-        std::cout << "Tic-Tac-Toe game" << std::endl;
-        std::cout << "Choose who begins:" << std::endl;
-        std::cout << "1. X" << std::endl;
-        std::cout << "2. O" << std::endl;
+        const char * text = R"(Tic-Tac-Toe game
+        Choose who begins:
+        1. X
+        2. O)";
+
+        Value k = Value::e;
+        std::cout << text << std::endl;
         std::cin >> choice;
         if (choice == 1){
-            k = Order::x;
+            k = Value::x;
             move(k);
         }
         else{
             if (choice == 2){
-                k = Order::o;
+                k = Value::o;
                 move(k);
             }
             else{
@@ -42,9 +44,9 @@ class TicTacToe{
         char p;
         for (int i = 0; i < 3; i++){
             for (auto j : board.at(i)){
-                if (j == Order::e) p = 'e';
+                if (j == Value::e) p = 'e';
                 else{
-                    if (j == Order::x) p = 'X';
+                    if (j == Value::x) p = 'X';
                     else p = 'O';
                 }
                 std::cout.width(3);
@@ -54,21 +56,23 @@ class TicTacToe{
         }
     }
 
-    void move(Order k){
+    void move(Value k){
         int column, row;
+        const char * text = R"(
+    Column number from left to right - 1, 2, 3
+    Row number from top to bottom - 1, 2, 3
+    In which row do you want to move?)";
         draw();
-        std::cout << "Column number from left to right - 1, 2, 3" << std::endl;
-        std::cout << "Row number from top to bottom - 1, 2, 3" << std::endl;
-        std::cout << "In which row do you want to move?" << std::endl;
+        std::cout << text << std::endl;
         std::cin >> row;
         boundCheck(row, k);
         std::cout << "In which column do you want to move?" << std::endl;
         std::cin >> column;
         boundCheck(column, k);
-        if (board.at(row - 1).at(column - 1) == Order::e){
+        if (board.at(row - 1).at(column - 1) == Value::e){
             board.at(row - 1).at(column - 1) = k;
-            if (k == Order::x) k = Order::o;
-            else k = Order::x;
+            if (k == Value::x) k = Value::o;
+            else k = Value::x;
             result(k);
         }
         else{
@@ -77,7 +81,7 @@ class TicTacToe{
         }
     }
 
-    void boundCheck(int check, Order k){
+    void boundCheck(int check, Value k){
         if (check != 1 && check != 2 && check != 3){
             std::cout << "Wrong number" << std::endl;
             move(k);
@@ -88,19 +92,19 @@ class TicTacToe{
         for (int i = 0; i < 3; i++){
             if(board.at(0).at(i) == board.at(1).at(i)
             && board.at(0).at(i) == board.at(2).at(i)
-            && board.at(0).at(i) != Order::e) return true;
+            && board.at(0).at(i) != Value::e) return true;
             else{
                 if(board.at(i).at(0) == board.at(i).at(1)
                 && board.at(i).at(0) == board.at(i).at(2)
-                && board.at(i).at(0) != Order::e) return true;
+                && board.at(i).at(0) != Value::e) return true;
                 else{
                     if(board.at(0).at(0) == board.at(1).at(1)
                     && board.at(0).at(0) == board.at(2).at(2)
-                    && board.at(0).at(0) != Order::e) return true;
+                    && board.at(0).at(0) != Value::e) return true;
                     else{
                         if(board.at(0).at(2) == board.at(1).at(1)
                         && board.at(0).at(2) == board.at(2).at(0)
-                        && board.at(0).at(2) != Order::e) return true;
+                        && board.at(0).at(2) != Value::e) return true;
                         else return false;
                     }
                 }
@@ -109,9 +113,9 @@ class TicTacToe{
         }
     }
 
-    void result(Order k){
+    void result(Value k){
         if (resultCheck() == true){
-            if (k == Order::o){
+            if (k == Value::o){
                 draw();
                 std::cout << "X won!" << std::endl;
             }
