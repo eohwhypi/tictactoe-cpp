@@ -15,7 +15,9 @@ class TicTacToe{
     }};
     public:
     void begin(){
-        int choice;
+        char choice;
+        char ans1[] = {'1', 'x', 'X'};
+        char ans2[] = {'2', 'o', 'O'};
         const char * text = R"(Tic-Tac-Toe game
         Choose who begins:
         1. X
@@ -24,12 +26,12 @@ class TicTacToe{
         Value k = Value::e;
         std::cout << text << std::endl;
         std::cin >> choice;
-        if (choice == 1){
+        if (choice == ans1[0] | choice == ans1[1] | choice == ans1[2]){
             k = Value::x;
             move(k);
         }
         else{
-            if (choice == 2){
+            if (choice == ans2[0] | choice == ans2[1] | choice == ans2[2]){
                 k = Value::o;
                 move(k);
             }
